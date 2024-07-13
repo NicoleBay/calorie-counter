@@ -36,4 +36,22 @@ function addEntry() {
   targetInputContainer.insertAdjacentHTML("beforeend", HTMLString); //sets or returns the HTML content inside an element. insertAdjacentHTML() makes sure entries don't disappear when new one is added (two arguments = insert new as last child, also pass the HTML string)
 }
 
+//get the calorie counts from the user's entries
+function getCaloriesFromInputs(list) {
+  let calories = 0;
+  for (const item of list) {
+    //loop through an array and a NodeList
+    const currVal = cleanInputString(item.value);
+    const invalidInputMatch = isInvalidInput(currVal);
+    if (invalidInputMatch) {
+      //checks if invalidInputMatch is truthy
+      alert(`Invalid Input: ${invalidInputMatch[0]}`);
+      isError = true;
+      return null;
+    }
+    calories += Number(currVal);
+  }
+  return calories;
+}
+
 addEntryButton.addEventListener("click", addEntry); //button behaviour
