@@ -25,7 +25,7 @@ function addEntry() {
     `#${entryDropdown.value} .input-container` //template literals
   );
   const entryNumber =
-    targetInputContainer.querySelectorAll('input[type="text"]').length; // Get the count of the text inputs (entries' names)
+    targetInputContainer.querySelectorAll('input[type="text"]').length + 1; // Get the count of the text inputs (entries' names). + 1 make sure entry doesn't start at 0.
   //HTML string to add to the webpage
   const HTMLString = `
   <label for="${entryDropdown.value}-${entryNumber}-name">Entry ${entryNumber} Name</label>
@@ -33,5 +33,7 @@ function addEntry() {
   <label for="${entryDropdown.value}-${entryNumber}-calories">Entry ${entryNumber} Calories</label>
   <input type="number" min="0" placeholder="Calories" id="${entryDropdown.value}-${entryNumber}-calories"/>
   `;
-  targetInputContainer.innerHTML += HTMLString; //sets or returns the HTML content inside an element
+  targetInputContainer.insertAdjacentHTML("beforeend", HTMLString); //sets or returns the HTML content inside an element. insertAdjacentHTML() makes sure entries don't disappear when new one is added (two arguments = insert new as last child, also pass the HTML string)
 }
+
+addEntryButton.addEventListener("click", addEntry); //button behaviour
