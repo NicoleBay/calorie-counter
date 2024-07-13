@@ -19,3 +19,19 @@ function isInvalidInput(str) {
   const regex = /\d+e\d+/i; // i flag makes the pattern case-insensitive. \d to match any digit. + allows to match a pattern one or more times.
   return str.match(regex); //returns an array of matches
 }
+
+function addEntry() {
+  const targetInputContainer = document.querySelector(
+    `#${entryDropdown.value} .input-container` //template literals
+  );
+  const entryNumber =
+    targetInputContainer.querySelectorAll('input[type="text"]').length; // Get the count of the text inputs (entries' names)
+  //HTML string to add to the webpage
+  const HTMLString = `
+  <label for="${entryDropdown.value}-${entryNumber}-name">Entry ${entryNumber} Name</label>
+  <input type="text" placeholder="Name" id="${entryDropdown.value}-${entryNumber}-name">/>
+  <label for="${entryDropdown.value}-${entryNumber}-calories">Entry ${entryNumber} Calories</label>
+  <input type="number" min="0" placeholder="Calories" id="${entryDropdown.value}-${entryNumber}-calories"/>
+  `;
+  targetInputContainer.innerHTML += HTMLString; //sets or returns the HTML content inside an element
+}
