@@ -36,6 +36,62 @@ function addEntry() {
   targetInputContainer.insertAdjacentHTML("beforeend", HTMLString); //sets or returns the HTML content inside an element. insertAdjacentHTML() makes sure entries don't disappear when new one is added (two arguments = insert new as last child, also pass the HTML string)
 }
 
+//attaching submit event of the form
+function calculateCalories(e) {
+  e.preventDefault();
+  isError = false; //Reset the global error flag at the start
+  const breakfastNumberInputs = document.querySelectorAll(
+    "#breakfast input[type=number]"
+  );
+  const lunchNumberInputs = document.querySelectorAll(
+    "#lunch input[type=number]"
+  );
+  const dinnerNumberInputs = document.querySelectorAll(
+    "#dinner input[type=number]"
+  );
+  const snacksNumberInputs = document.querySelectorAll(
+    "#snacks input[type=number]"
+  );
+  const exerciseNumberInputs = document.querySelectorAll(
+    "#exercise input[type=number]"
+  );
+
+  const breakfastCalories = getCaloriesFromInputs(breakfastNumberInputs);
+  const lunchCalories = getCaloriesFromInputs(lunchNumberInputs);
+  const dinnerCalories = getCaloriesFromInputs(dinnerNumberInputs);
+  const snacksCalories = getCaloriesFromInputs(snacksNumberInputs);
+  const exerciseCalories = getCaloriesFromInputs(exerciseNumberInputs);
+  const budgetCalories = getCaloriesFromInputs([budgetNumberInput]);
+
+  //check is there's an error in input
+  if (isError) {
+    return; // Exit the function if an error was detected
+  }
+
+  // Calculate the consumed calories
+  const consumedCalories =
+    breakfastCalories + lunchCalories + dinnerCalories + snacksCalories;
+
+  // Calculate remaining calories
+  const remainingCalories =
+    budgetCalories - consumedCalories + exerciseCalories;
+
+  // Declare and assign surplusOrDeficit using a ternary operator
+  const surplusOrDeficit = remainingCalories < 0 ? "Surplus" : "Deficit";
+
+  output.innerHTML = `<span class="${surplusOrDeficit.toLowerCase()}">${Math.abs(
+    //Maths.abs = ensure that the value is positive
+    remainingCalories
+  )} Calorie ${surplusOrDeficit}</span>
+  <hr>
+  <p>${budgetCalories} Calories Budgeted</p>
+  <p>${consumedCalories} Calories Consumed</p>
+<p>${exerciseCalories} Calories Burned</p>
+  `; //span with class and toLowerCase()
+
+  output.classList.remove("hide"); // visible so the user can see your text
+}
+
 //get the calorie counts from the user's entries
 function getCaloriesFromInputs(list) {
   let calories = 0;
