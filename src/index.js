@@ -29,7 +29,7 @@ function addEntry() {
   //HTML string to add to the webpage
   const HTMLString = `
   <label for="${entryDropdown.value}-${entryNumber}-name">Entry ${entryNumber} Name</label>
-  <input type="text" placeholder="Name" id="${entryDropdown.value}-${entryNumber}-name">/>
+  <input type="text" placeholder="Name" id="${entryDropdown.value}-${entryNumber}-name"/>
   <label for="${entryDropdown.value}-${entryNumber}-calories">Entry ${entryNumber} Calories</label>
   <input type="number" min="0" placeholder="Calories" id="${entryDropdown.value}-${entryNumber}-calories"/>
   `;
@@ -110,4 +110,18 @@ function getCaloriesFromInputs(list) {
   return calories;
 }
 
+function clearForm() {
+  const inputContainers = Array.from(
+    document.querySelectorAll(".input-container")
+  ); //querying the document for all elements with the class input-container
+  for (const container of inputContainers) {
+    container.innerHTML = "";
+  } //This will clear all of the contents of that input container.
+  budgetNumberInput.value = ""; //clear the budgetNumberInput
+  output.innerText = ""; // clear the output element's text
+  output.classList.add("hide"); //  restore the hide class to the output element
+}
+
 addEntryButton.addEventListener("click", addEntry); //button behaviour
+calorieCounter.addEventListener("submit", calculateCalories); //button behavior
+clearButton.addEventListener("click", clearForm); //button behavior
